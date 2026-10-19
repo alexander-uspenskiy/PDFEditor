@@ -20,6 +20,8 @@ const STYLE = `
 .top { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px 20px; background: #FBFBF8; border-bottom: 1px solid #C5CCC2; flex-wrap: wrap; }
 .title { display: flex; align-items: baseline; gap: 12px; min-width: 0; }
 .title h1 { font-family: 'Newsreader', Georgia, serif; font-weight: 600; font-size: 22px; margin: 0; }
+.credit { padding: 10px 20px; font-size: 13px; color: #5B6660; background: #FBFBF8; border-top: 1px solid #C5CCC2; }
+.credit a { color: #2E5E4E; }
 .filename { color: #5B6660; font-size: 14px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 40ch; }
 .actions, .group { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
 .desk button { font: inherit; font-size: 14px; padding: 7px 12px; border-radius: 4px; border: 1px solid #AEB7AC; background: #FBFBF8; color: inherit; cursor: pointer; }
@@ -352,7 +354,7 @@ export default function PdfEditor() {
 
       <header className="top">
         <div className="title">
-          <h1>PDF Desk</h1>
+          <h1>PDF Editor</h1>
           <span className="filename">{name || "No file open"}</span>
           {busy && <span className="busy">Working…</span>}
         </div>
@@ -472,6 +474,9 @@ export default function PdfEditor() {
           </aside>
         )}
       </main>
+      <footer className="credit">
+        Created by Alex · MIT License · <a href="https://github.com/alexander-uspenskiy/PDFEditor" target="_blank" rel="noreferrer">GitHub</a>
+      </footer>
     </div>
   );
 }

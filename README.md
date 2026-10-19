@@ -1,4 +1,4 @@
-# PDF Desk
+# PDF Editor
 
 A browser-based PDF editor built as a single React component. Files are opened, edited, and downloaded entirely in the browser. Nothing is uploaded to a server.
 
@@ -96,9 +96,13 @@ Editing your own documents is generally fine. Editing someone else's copyrighted
 ## Status
 
 - Source files are in place and tested in Node.
-- Not yet a git repository.
-- Not yet deployed. GitHub Pages deployment needs a Vite project scaffold and a GitHub Actions workflow, which have not been built.
+- Version 1.1.0, in a git repository on GitHub.
+- Deployed to GitHub Pages from a Vite project with a GitHub Actions workflow.
 
 ## License
 
-Not specified.
+Released under the [MIT License](LICENSE).
+
+## Author
+
+Created by Alex. Source: [github.com/alexander-uspenskiy/PDFEditor](https://github.com/alexander-uspenskiy/PDFEditor)

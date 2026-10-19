@@ -1,8 +1,10 @@
 {
-  "name": "pdf-desk",
-  "version": "1.0.0",
+  "name": "pdf-editor",
+  "version": "1.1.0",
   "private": true,
-  "description": "PDF Desk: a browser-based PDF editor. Files never leave the browser.",
+  "description": "PDF Editor: a browser-based PDF editor. Files never leave the browser.",
+  "author": "Alex (https://github.com/alexander-uspenskiy)",
+  "license": "MIT",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
