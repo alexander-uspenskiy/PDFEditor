@@ -1,0 +1,22 @@
+{
+  "name": "pdf-desk",
+  "version": "1.0.0",
+  "private": true,
+  "description": "PDF Desk: a browser-based PDF editor. Files never leave the browser.",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "node tests/pdf-ops.test.js && node tests/text-edit.test.mjs"
+  },
+  "dependencies": {
+    "pdf-lib": "^1.17.1",
+    "pdfjs-dist": "^4.10.38",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^6.1.2",
+    "vite": "^8.3.4"
+  }
+}
