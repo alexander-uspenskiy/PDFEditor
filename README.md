@@ -2,8 +2,8 @@
 
 A PDF editor with two ways to run it:
 
-- **Browser app:** a single React component. Files are opened, edited, and downloaded entirely in the browser, and nothing is uploaded.
-- **Local backend (optional):** a Python server and an [MCP server](backend/mcp_server.py) on your own computer. They add document-wide find and replace, cleaning, search with positions, per-match editing, a document info panel, and PDF tools for AI clients. Files are processed on this machine and never leave it.
+- **Browser app:** a single React component. Files are opened, edited, and downloaded entirely in the browser, and nothing is uploaded to ny remote server.
+- **Local backend:** a Python server and an [MCP server](backend/mcp_server.py) on your own computer. They add document-wide find and replace, cleaning, search with positions, per-match editing, a document info panel, and PDF tools for AI clients. Files are processed on this machine and never leave it. Edit with an original PDF background under text.
 
 ## Features
 
