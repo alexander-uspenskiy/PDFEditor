@@ -1,0 +1,22 @@
+{
+  "name": "pdf-editor-server-ui",
+  "version": "3.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Browser PDF editor with the local backend's search, clean and find-and-replace tools.",
+  "scripts": {
+    "build": "vite build"
+  },
+  "dependencies": {
+    "@tabler/icons": "^3.49.0",
+    "@tabler/icons-react": "^3.49.0",
+    "pdf-lib": "^1.17.1",
+    "pdfjs-dist": "^4.10.38",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^6.1.2",
+    "vite": "^8.3.4"
+  }
+}

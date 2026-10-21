@@ -1,0 +1,6 @@
+-r requirements.txt
+-r requirements-mcp.txt
+pytest>=8.0
+httpx>=0.27
+pypdfium2>=4.30
+numpy>=1.26

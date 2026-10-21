@@ -101,7 +101,7 @@ Editing your own documents is generally fine. Editing someone else's copyrighted
 
 ## License
 
-Released under the [MIT License](LICENSE).
+Released under the [MIT License](LICENSE). The same file lists the third-party components the app uses (pdf-lib, pdf.js, React and others) with their licenses. The built app includes a copy of it as `LICENSE.txt`.
 
 ## Author
 
