@@ -41,6 +41,12 @@ export default function App() {
 
 The component takes no props. It manages its own state, and it works offline once the page has loaded. The only external request is the Google Fonts stylesheet at the top of the component's styles. If that request is blocked, the page falls back to system fonts.
 
+## Optional local backend and MCP server
+
+The browser app above runs entirely in the browser. The `backend/` folder adds an optional local Python server. It adds document-wide find and replace, cleaning, search with positions, per-match editing, and a document info panel. Files are processed on this computer.
+
+The same folder has an [MCP server](backend/mcp_server.py) that gives AI clients the editor's options as tools: find, replace, text, highlight, whiteout, rotate, move, delete, add pages, form fields, clean, and render. It runs over stdio and needs no running web server. Setup, the tool list, and how files are handled are in [backend/README.md](backend/README.md).
+
 ## Tests
 
 The tests run in Node and check the PDF logic. They do not exercise the React interface.
@@ -55,15 +61,25 @@ Run them from the project root with the dependencies installed. Every check prin
 - `pdf-ops.test.js` covers moving pages, rotating, drawing, filling form fields, deleting a page, and checking that form values persist after a save and reload.
 - `text-edit.test.mjs` covers finding the text under a click, rejecting clicks on empty space, replacing a word at the same position, leaving neighboring text untouched, and making sure a second click hits the replacement rather than the hidden original.
 
+The backend has its own pytest suite. See [backend/README.md](backend/README.md#tests).
+
 ## Project structure
 
 ```
 PDFEditor/
 ├── PdfEditor.jsx          # The component
+├── src/main.jsx           # Entry point for the GitHub Pages app
+├── index.html             # Page the Vite build starts from
+├── vite.config.mjs        # Build config; ships LICENSE.txt with the build
+├── LICENSE                # MIT License, plus third-party component notices
 ├── README.md              # This file
-└── tests/
-    ├── pdf-ops.test.js    # PDF operations checks
-    └── text-edit.test.mjs # Text hit-testing and replacement checks
+├── package.json
+├── tests/
+│   ├── pdf-ops.test.js    # PDF operations checks
+│   └── text-edit.test.mjs # Text hit-testing and replacement checks
+├── backend/               # Optional local server and MCP server (see below)
+└── .github/workflows/
+    └── pages.yml          # Builds and deploys to GitHub Pages
 ```
 
 ## How it works
