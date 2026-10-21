@@ -1,6 +1,9 @@
 # PDF Editor
 
-A browser-based PDF editor built as a single React component. Files are opened, edited, and downloaded entirely in the browser. Nothing is uploaded to a server.
+A PDF editor with two ways to run it:
+
+- **Browser app:** a single React component. Files are opened, edited, and downloaded entirely in the browser, and nothing is uploaded.
+- **Local backend (optional):** a Python server and an [MCP server](backend/mcp_server.py) on your own computer. They add document-wide find and replace, cleaning, search with positions, per-match editing, a document info panel, and PDF tools for AI clients. Files are processed on this machine and never leave it.
 
 ## Features
 
@@ -41,11 +44,31 @@ export default function App() {
 
 The component takes no props. It manages its own state, and it works offline once the page has loaded. The only external request is the Google Fonts stylesheet at the top of the component's styles. If that request is blocked, the page falls back to system fonts.
 
-## Optional local backend and MCP server
+## Local backend and MCP server
 
-The browser app above runs entirely in the browser. The `backend/` folder adds an optional local Python server. It adds document-wide find and replace, cleaning, search with positions, per-match editing, and a document info panel. Files are processed on this computer.
+The `backend/` folder is a local Python service. It serves its own copy of the editor at `http://127.0.0.1:8000/app/`, with the server tools added, and it exposes an API under `/api/v1`. Keep it bound to `127.0.0.1`. Everything runs on this computer.
 
-The same folder has an [MCP server](backend/mcp_server.py) that gives AI clients the editor's options as tools: find, replace, text, highlight, whiteout, rotate, move, delete, add pages, form fields, clean, and render. It runs over stdio and needs no running web server. Setup, the tool list, and how files are handled are in [backend/README.md](backend/README.md).
+Run it with:
+
+```bash
+cd backend
+PORT=8000 ./run_local.sh
+```
+
+The server adds these to the editor:
+
+- **Undo:** up to 30 steps for every change, editing or server-side.
+- **Find:** searches the whole document and highlights every match, with Previous and Next. Spaces and line breaks are ignored, so names split across lines are found.
+- **Replace:** replaces text across the whole document. The result is checked before it is returned, and a name that remains is reported as an error.
+- **Edit text, Permanent:** removes one matched text run from the file and writes the new text in its place. Other copies of the text are left alone.
+- **Clean:** strips document info and XMP metadata, JavaScript, embedded files and attachments, and optionally compresses. Form fields are kept.
+- **Info:** pages, size, PDF version, encryption, metadata, JavaScript count, attachments, form fields and annotations.
+
+The API has endpoints for upload, inspect, search, find, replace, clean, occurrence listing, one-match replacement, download and page rendering. The interactive reference is at `/docs`. Full endpoint table, error codes, and limits are in [backend/README.md](backend/README.md#api).
+
+The [MCP server](backend/mcp_server.py) gives AI clients the same options as tools: `pdf_info`, `pdf_find`, `pdf_occurrences`, `pdf_form_fields`, `pdf_fill_form`, `pdf_render_page`, `pdf_replace`, `pdf_replace_occurrence`, `pdf_cover_occurrence`, `pdf_add_text`, `pdf_highlight`, `pdf_whiteout`, `pdf_rotate_page`, `pdf_move_page`, `pdf_delete_page`, `pdf_append_pages`, and `pdf_clean`. It runs over stdio, opens no port, and needs no running web server. Tools that change a PDF write a new file and never overwrite the input.
+
+Setup, the full tool list, and the file-handling rules are in [backend/README.md](backend/README.md).
 
 ## Tests
 
@@ -78,6 +101,16 @@ PDFEditor/
 │   ├── pdf-ops.test.js    # PDF operations checks
 │   └── text-edit.test.mjs # Text hit-testing and replacement checks
 ├── backend/               # Optional local server and MCP server (see below)
+│   ├── main.py            # API routes and the editor mount
+│   ├── mcp_server.py      # MCP server exposing the editor's options as tools
+│   ├── editor_ops.py      # Page, annotation and form operations
+│   ├── replace_name.py    # PDF replacement engine
+│   ├── pdf_tools.py       # Inspect, clean and search with positions
+│   ├── formats.py         # Format detection and find/replace
+│   ├── jobs.py            # Uploads and results kept for one hour
+│   ├── run_local.sh       # Sets up and starts the server
+│   ├── frontend/          # Editor copy with the server tools (React + Vite)
+│   └── tests/             # pytest suite for the backend and MCP server
 └── .github/workflows/
     └── pages.yml          # Builds and deploys to GitHub Pages
 ```
@@ -91,7 +124,7 @@ PDFEditor/
 
 ## Limitations
 
-- **Text is hidden, not removed.** The original text stays in the file under the white box. Copying, searching, or extracting text can still reveal it. Don't rely on this tool to remove sensitive information. Permanent removal needs true redaction, which this tool does not provide.
+- **Text is hidden, not removed, in Cover only mode.** The original text stays in the file under the white box, and copying, searching, or extracting text can still reveal it. The backend's Permanent mode removes the matched text run, but neither mode is true redaction. Don't rely on this tool to remove sensitive information.
 - **Replacement text doesn't match the original style.** It uses Helvetica in black at the original size. The original font, weight, and color are not preserved.
 - **Longer replacements can overlap neighboring text,** because the white box matches the original width.
 - **Only Latin characters are supported.** The standard Helvetica font can't draw characters outside its encoding, and pdf-lib will raise an error for those.
@@ -111,7 +144,8 @@ Editing your own documents is generally fine. Editing someone else's copyrighted
 
 ## Status
 
-- Source files are in place and tested in Node.
+- Browser app: source files are in place and tested in Node.
+- Local backend: tested with pytest, including the API routes and the MCP tools.
 - Version 1.1.0, in a git repository on GitHub.
 - Deployed to GitHub Pages from a Vite project with a GitHub Actions workflow.
 
